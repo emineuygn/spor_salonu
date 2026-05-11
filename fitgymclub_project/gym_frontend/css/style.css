@@ -1,0 +1,170 @@
+/* FİT GYM CLUB - Modern & Neon Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+
+:root {
+    /* Renk Paleti */
+    --neon-sari:   #ccff00; 
+    --neon-koyu:   #b3e600;
+    --siyah:       #080808; /* Daha derin bir siyah */
+    --siyah-2:     #121212;
+    --siyah-3:     #1c1c1c;
+    --siyah-4:     #282828;
+    --gri-acik:    #e0e0e0;
+    --beyaz:       #ffffff;
+    
+    /* Modern Font ve Layout */
+    --font-main:   'Inter', sans-serif; 
+    --radius-lg:   20px;
+    --golge-neon:  0 0 30px rgba(204, 255, 0, 0.15);
+    --transition:  all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--siyah);
+    /* Canlılık katan arka plan efekti */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(204, 255, 0, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(204, 255, 0, 0.03) 0%, transparent 20%);
+    color: var(--beyaz);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Linklerin morarmasını engelleyen kesin çözüm */
+a {
+    text-decoration: none !important;
+    color: inherit;
+    transition: var(--transition);
+}
+
+/* HERO SECTION [cite: 9] */
+.hero {
+    height: 100vh;
+    /* Daha canlı ve derinlikli overlay */
+    background: 
+        linear-gradient(rgba(8, 8, 8, 0.6), rgba(8, 8, 8, 0.9)), 
+        url('../assets/img/hero-gym.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 10vw, 6rem); /* Daha agresif ve modern boyut */
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--neon-sari);
+    letter-spacing: -2px; /* Modern "tight" görünüm */
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.4rem;
+    color: var(--gri-acik);
+    max-width: 800px;
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+.btn-primary {
+    background-color: var(--neon-sari) !important; /* Arka plan kesin neon sarı */
+    color: #080808 !important; /* Yazı kesinlikle koyu siyah */
+    padding: 16px 40px;
+    font-weight: 900;
+    border-radius: 50px;
+    text-transform: uppercase;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(204, 255, 0, 0.3); /* Hafif derinlik */
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    background-color: var(--neon-koyu) !important;
+    box-shadow: 0 8px 25px rgba(204, 255, 0, 0.5);
+}
+
+.btn-outline-hero {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    color: var(--beyaz) !important;
+    padding: 18px 45px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+.btn-outline-hero:hover {
+    border-color: var(--neon-sari);
+    color: var(--neon-sari) !important;
+    background: transparent;
+}
+
+/* HİZMET KARTLARI (GRID) [cite: 32] */
+.section-title {
+    text-align: center;
+    margin: 100px 0 60px;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--neon-sari);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    padding-bottom: 120px;
+}
+
+.price-card {
+    background: linear-gradient(145deg, var(--siyah-2), var(--siyah-3));
+    border: 1px solid var(--siyah-4);
+    border-radius: var(--radius-lg);
+    padding: 60px 40px;
+    text-align: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.price-card:hover {
+    border-color: var(--neon-sari);
+    transform: translateY(-15px);
+    box-shadow: var(--golge-neon);
+}
+
+.price-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 4px;
+    background: var(--neon-sari);
+    transform: scaleX(0);
+    transition: var(--transition);
+}
+
+.price-card:hover::before {
+    transform: scaleX(1);
+}
+
+.hizmet-ikon {
+    font-size: 4rem;
+    margin-bottom: 25px;
+    display: block;
+}

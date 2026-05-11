@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT GYM CLUB | YÖNETİM PANELİ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="admin.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- TOAST -->
+    <div id="toast-container" class="position-fixed top-0 end-0 p-3" style="z-index:9999"></div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="adminModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content admin-modal-content">
+                <div id="modal-content" class="p-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex min-vh-100">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar d-flex flex-column">
+
+            <div class="sidebar-logo">
+                <div class="logo-text">FIT<span class="logo-accent">GYM</span></div>
+                <div class="logo-sub">Yönetim Paneli</div>
+            </div>
+
+            <nav class="sidebar-nav flex-grow-1">
+                <a class="nav-item" id="nav-dashboard" onclick="loadSection('dashboard')">
+                    <i class="bi bi-speedometer2 nav-icon"></i><span>Dashboard</span>
+                </a>
+                <a class="nav-item" id="nav-members" onclick="loadSection('members')">
+                    <i class="bi bi-people nav-icon"></i><span>Üyeler</span>
+                </a>
+                <a class="nav-item" id="nav-staff" onclick="loadSection('staff')">
+                    <i class="bi bi-person-badge nav-icon"></i><span>Eğitmenler</span>
+                </a>
+                <a class="nav-item" id="nav-packages" onclick="loadSection('packages')">
+                    <i class="bi bi-credit-card nav-icon"></i><span>Paketler</span>
+                </a>
+                <a class="nav-item" id="nav-classes" onclick="loadSection('classes')">
+                    <i class="bi bi-activity nav-icon"></i><span>Dersler</span>
+                </a>
+                <a class="nav-item" id="nav-logs" onclick="loadSection('logs')">
+                    <i class="bi bi-clock-history nav-icon"></i><span>Loglar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="d-flex align-items-center gap-2 mb-2 px-1">
+                    <div id="sidebar-avatar" class="admin-avatar">A</div>
+                    <div>
+                        <div id="sidebar-name" class="sidebar-user-name">Admin</div>
+                        <div class="sidebar-user-role">Yönetici</div>
+                    </div>
+                </div>
+                <button onclick="logout()" class="btn-logout w-100">
+                    <i class="bi bi-box-arrow-left"></i> Çıkış Yap
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="flex-grow-1 admin-main">
+            <header class="admin-topbar d-flex align-items-center justify-content-between px-4">
+                <h1 id="section-title" class="topbar-title mb-0"></h1>
+                <span id="admin-name" class="topbar-user"></span>
+            </header>
+
+            <div class="p-4">
+                <section id="dynamic-content" class="min-content">
+                    <div class="d-flex align-items-center justify-content-center" style="height:300px">
+                        <div class="text-muted fst-italic">Yükleniyor...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html></html>

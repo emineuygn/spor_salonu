@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>FIT GYM CLUB | THE KINETIC VAULT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --lime: #c3f400;
+            --lime-dim: #abd600;
+            --lime-on: #283500;
+            --bg: #0e0e0e;
+            --surface: #131313;
+            --surface-low: #1c1b1b;
+            --surface-high: #2a2a2a;
+            --muted: #c4c9ac;
+        }
+        * { box-sizing: border-box; }
+        body { background-color: var(--bg); color: #e5e2e1; font-family: 'Inter', sans-serif; margin: 0; }
+        ::selection { background: var(--lime); color: var(--lime-on); }
+
+        /* ── Navbar ── */
+        .kinetic-nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(9,9,11,.6); backdrop-filter: blur(20px);
+            box-shadow: 0 24px 48px rgba(0,0,0,.4);
+            height: 80px; display: flex; align-items: center;
+        }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; width: 100%; max-width: 1400px; margin: 0 auto; }
+        .nav-brand { font-size: 1.375rem; font-weight: 900; font-style: italic; letter-spacing: -.05em; color: var(--lime); text-decoration: none; }
+
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a {
+            color: var(--lime); font-weight: 700; text-transform: uppercase;
+            letter-spacing: .05em; font-size: .875rem; text-decoration: none;
+            transition: color .2s;
+        }
+        .nav-links a:not(.active-link) { color: #a1a1aa; border-bottom: none; }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a.active-link { color: var(--lime); border-bottom: 2px solid var(--lime); padding-bottom: 2px; }
+
+        .nav-actions { display: flex; align-items: center; gap: .5rem; }
+        .btn-nav-outline {
+            padding: .45rem 1.25rem; border-radius: 999px; border: 1px solid #52525b;
+            color: #d4d4d8; background: transparent; font-weight: 700; font-size: .7rem;
+            text-transform: uppercase; letter-spacing: .05em; cursor: pointer;
+            transition: all .2s; font-family: 'Inter', sans-serif;
+        }
+        .btn-nav-outline:hover { border-color: #fff; color: #fff; }
+        .btn-nav-lime {
+            padding: .45rem 1.25rem; border-radius: 999px; background: var(--lime);
+            color: var(--lime-on); font-weight: 700; font-size: .7rem;
+            text-transform: uppercase; letter-spacing: .05em; cursor: pointer;
+            transition: all .2s; border: none; font-family: 'Inter', sans-serif;
+        }
+        .btn-nav-lime:hover { background: var(--lime-dim); }
+
+        /* ── Hero ── */
+        .hero-section {
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center; padding-top: 80px; overflow: hidden;
+        }
+        .hero-bg { position: absolute; inset: 0; z-index: 0; }
+        .hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: .4; }
+        .hero-bg-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, var(--bg) 0%, rgba(14,14,14,.2) 50%, transparent 100%);
+        }
+        .hero-content {
+            position: relative; z-index: 10;
+            width: 100%; max-width: 1400px; margin: 0 auto;
+            padding: 4rem 2rem 5rem;
+        }
+        .hero-title {
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 900; letter-spacing: -.05em; line-height: .85;
+            color: #fff; margin-bottom: 1.5rem;
+        }
+        .hero-title .accent {
+            color: var(--lime); font-style: italic;
+            text-shadow: 0 0 20px rgba(195,244,0,.3);
+        }
+        .hero-sub {
+            font-size: clamp(.9rem, 2vw, 1.25rem); font-weight: 700;
+            text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+            margin-bottom: 3rem; max-width: 640px;
+        }
+
+        /* Butonlar */
+        .btn-hero-lime {
+            background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dim) 100%);
+            color: var(--lime-on); font-weight: 900; font-size: 1rem;
+            text-transform: uppercase; letter-spacing: .12em; padding: 1.25rem 2.5rem;
+            border: none; border-radius: .75rem; cursor: pointer; transition: all .2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-hero-lime:hover { box-shadow: 0 0 30px rgba(195,244,0,.4); }
+        .btn-hero-outline {
+            background: rgba(53,53,52,.6); backdrop-filter: blur(12px);
+            color: #fff; font-weight: 900; font-size: 1rem;
+            text-transform: uppercase; letter-spacing: .12em; padding: 1.25rem 2.5rem;
+            border: 1px solid rgba(255,255,255,.1); border-radius: .75rem;
+            cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif;
+        }
+        .btn-hero-outline:hover { background: var(--surface-high); }
+
+        /* İstatistikler — butonların ALTINDA, normal akışta */
+        .hero-stats {
+            display: flex; gap: 3rem; align-items: flex-end;
+            margin-top: 4rem;
+        }
+        .hero-stat-num { display: block; font-size: 3rem; font-weight: 900; font-style: italic; color: var(--lime); }
+        .hero-stat-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; color: var(--muted); }
+        .hero-divider { width: 1px; height: 48px; background: rgba(68,73,51,.3); align-self: center; }
+
+        /* ── Dersler ── */
+        .courses-section { padding: 8rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .section-label { font-size: .75rem; font-weight: 900; text-transform: uppercase; letter-spacing: .2em; color: var(--lime); margin-bottom: 1rem; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: -.05em; color: #fff; }
+
+        .course-card {
+            position: relative; overflow: hidden; border-radius: 1rem;
+            background: var(--surface-low); height: 400px; cursor: pointer;
+        }
+        .course-card img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: .5; transition: transform .7s ease;
+        }
+        .course-card:hover img { transform: scale(1.1); }
+        .course-card-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, #000 0%, rgba(0,0,0,.4) 50%, transparent 100%);
+        }
+        .course-card-body { position: absolute; bottom: 2rem; left: 2rem; right: 2rem; }
+        .course-icon { font-size: 1.25rem; color: var(--lime); }
+        .course-name { font-size: .9rem; font-weight: 900; text-transform: uppercase; letter-spacing: .12em; color: #fff; }
+        .course-desc { color: var(--muted); font-size: .875rem; font-weight: 500; line-height: 1.5; margin-top: .5rem; }
+
+        /* ── Info Section ── */
+        .info-section { background: var(--surface-low); padding: 8rem 0; }
+        .hours-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; letter-spacing: -.03em; color: #fff; margin-bottom: 3rem; }
+        .hours-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(68,73,51,.15); }
+        .hours-day  { font-size: 1.25rem; font-weight: 700; color: #fff; }
+        .hours-time { font-size: 1.25rem; font-weight: 900; font-style: italic; color: var(--lime); }
+
+        .status-dot  { width: 16px; height: 16px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 15px var(--lime); animation: pulse 2s infinite; flex-shrink: 0; }
+        .status-text { font-size: 1.5rem; font-weight: 900; font-style: italic; color: #fff; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+
+        .contact-box { background: var(--surface-high); border-radius: 1rem; padding: 3rem; position: relative; overflow: hidden; }
+        .contact-box::before { content: ''; position: absolute; top: 0; right: 0; width: 256px; height: 256px; background: var(--lime); opacity: .05; filter: blur(120px); border-radius: 50%; }
+        .contact-title { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 900; letter-spacing: -.03em; color: #fff; margin-bottom: 3rem; }
+        .contact-item { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+        .contact-icon { font-size: 2.5rem; color: var(--lime); flex-shrink: 0; }
+        .contact-item-title { font-size: 1.0625rem; font-weight: 700; color: #fff; margin-bottom: .25rem; }
+        .contact-item-text  { color: var(--muted); font-size: .9375rem; }
+        .contact-map { border-radius: .75rem; overflow: hidden; height: 192px; filter: grayscale(1) brightness(.5); margin-top: 3rem; }
+        .contact-map img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ── Footer ── */
+        .kinetic-footer { background: #050505; padding: 4rem 2rem; border-top: 1px solid #18181b; }
+        .footer-inner { max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; flex-wrap: wrap; gap: 1.5rem; }
+        @media (min-width: 768px) { .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; } }
+        .footer-brand { font-size: 1.25rem; font-weight: 900; font-style: italic; color: #e4e4e7; }
+        .footer-link  { color: #52525b; font-size: .65rem; text-transform: uppercase; letter-spacing: .2em; text-decoration: none; font-weight: 700; transition: color .2s; }
+        .footer-link:hover { color: var(--lime); }
+        .footer-copy  { color: #52525b; font-size: .65rem; text-transform: uppercase; letter-spacing: .2em; }
+    </style>
+</head>
+<body>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="kinetic-nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">FIT GYM CLUB</a>
+
+        <div class="nav-links d-none d-md-flex" id="nav-links">
+            <a href="pages/hizmetler.html">PROGRAMLAR</a>
+            <a href="pages/hakkimizda.html">HAKKIMIZDA</a>
+        </div>
+
+        <div class="nav-actions" id="nav-buttons">
+            <button class="btn-nav-outline" id="btn-left">GİRİŞ YAP</button>
+            <button class="btn-nav-lime"    id="btn-right">ÜYE OL</button>
+        </div>
+    </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero-section">
+    <div class="hero-bg">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYvYHBm24OXJTrRDgSOyKCwzxn6KludbNLQUO972b46M4M7BnOUKM8KowS_nLcykOmmlsd_NCg7UKkw9fBg9JnLzBpJwTJyJGeaynoo2jkIo6k29a0VO-AjmiusmhGIKNY7KTAzogaeyo2DFqNtba0to61XyJwYyqUCUCzNFydTXaSpTcvW59WwsWL_6MYlZVj60q7bqEMdgymCTu8fE1Xjn7Z_Ge_ubeJDbyWh8flwUCKwn9EB8nPDkOyL-MwCljWWsNvvSjRjolx" alt="Gym">
+        <div class="hero-bg-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+        <h1 class="hero-title">
+            LİMİTLERİNİ<br>
+            <span class="accent">ZORLA</span>
+        </h1>
+        <p class="hero-sub">
+            GÜCÜNÜ KEŞFET. KINETIC VAULT İLE PERFORMANSININ ZİRVESİNE ULAŞ.
+        </p>
+
+        <!-- Butonlar -->
+        <div class="d-flex flex-column flex-md-row gap-3">
+            <button class="btn-hero-lime" onclick="window.location.href='pages/kayit.html'">Hemen Üye Ol</button>
+            <button class="btn-hero-outline" onclick="document.getElementById('populer-dersler').scrollIntoView({behavior:'smooth'})">Dersleri İncele</button>
+        </div>
+
+        <!-- İstatistikler — butonların ALTINDA -->
+        <div class="hero-stats">
+            <div>
+                <span class="hero-stat-num">500+</span>
+                <span class="hero-stat-label">Aktif Üye</span>
+            </div>
+            <div class="hero-divider"></div>
+            <div>
+                <span class="hero-stat-num">24/7</span>
+                <span class="hero-stat-label">Erişim</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ DERSLER ══════════ -->
+<section id="populer-dersler" class="courses-section">
+    <div class="d-flex justify-content-between align-items-end mb-5 flex-wrap gap-3">
+        <div>
+            <p class="section-label">EĞİTİM PROGRAMLARI</p>
+            <h3 class="section-title">POPÜLER DERSLER</h3>
+        </div>
+        <i class="bi bi-activity d-none d-md-block" style="font-size:4rem;color:#27272a"></i>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-8">
+            <div class="course-card">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaFsa5zLyjnMnS4S-8m938m0P9Znu_X-fbNjvYXTIuSAhRVTihXVTVujmh7QwpZeiCUJuhHu4ndORr0sUU-eJZEi_7hzUnd-QTgDna6IREG-8C_VLj0MCDZsIc82rX4omBSmGaSyx38D-hW9EaH2Ntf7bu_qJtE3dwTTpGBCAMArnW6G-rWF9gH7m5RMTBP-MLguyKea7Ud21Nhu9JPY4LzW2I9eFwBWgI36sjlQWO3hLx0yMKaY-ziSawGf5VnQqONG_d-UnBYh35" alt="Fitness">
+                <div class="course-card-overlay"></div>
+                <div class="course-card-body">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-activity course-icon"></i>
+                        <span class="course-name">FITNESS</span>
+                    </div>
+                    <p class="course-desc">Kişiselleştirilmiş ağırlık antrenmanları ile vücut kompozisyonunu yeniden tanımla.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="course-card">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIBa1ieuf-pk7wryPesDcgop_7SAPGzEbqSmKGhI4io5nGICtlwlmY1K3u81jgYBw9NKyae4_8jM2JyMDghhnsMUV6vmFtXnOpcZLOg_WtWEBGxuZyfJMHD-eakelxoY2_SD7R9ftiQB1iH0yti9DY3Lb6mVjT3gK5td-kaM9Igm7dMBKUljP6DeVk5pICtNuJVWZ_wupFvOAi5f7_GJBd5YWrARDfE3JFtVXiPoBu4EyIiENR0Wuu3Fu28y2YteYIsz1t0hxH-xEg" alt="Boks">
+                <div class="course-card-overlay"></div>
+                <div class="course-card-body">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-trophy course-icon"></i>
+                        <span class="course-name">BOKS</span>
+                    </div>
+                    <p class="course-desc">Yüksek yoğunluklu kardiyo ve teknik vuruş disiplini.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="course-card">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGEE1MTda_T-Sx0ZVW9bsj4UfcOkGvnn3jYESdCg-4wv0dRXHlceFj9B5-g8AViGhOZAyHXRk4o-qo8tkz15bSxKxEWiTE6toKlgTn_5wqqZ8kiU8Om4BiC0mVYEYs6tTXAcDyCR-dTeauXRHAvBAGQxKLPTIHauEYBxTI82Z3dJafgpoiddl7WHEa2a43pr3qQdSMwXSiJlkbcnddeX_WrsLuZH-mDHR0wt4RA3_cV0qLRJ0G_0lygVjI5q8vHLiReYcsgAV306dP" alt="Pilates">
+                <div class="course-card-overlay"></div>
+                <div class="course-card-body">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-person-arms-up course-icon"></i>
+                        <span class="course-name">PİLATES</span>
+                    </div>
+                    <p class="course-desc">Core gücü ve esneklik odaklı modern reformer seansları.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="course-card">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVxUi-29BsInVx7DXB2EMp_nRR4UoZ6r6XhQ2aoGJa5wwd1q-m4SQPMu1IO4xbNTy5_nISY8zgzJXi7apT5TATr3DaKFX25YvjCs7PAUSwKvZbCdVxyl5lmmZudfs74juIZqBo7lFOkAszYaMQJcyj13vAR6vFnjlIqR35fo-pY9rezySurnpF9xoxOnUeX5Esfk7M0EESVaTWGd4zIsFIyDDuCqpi7tGCFUyx4S6VmiIHoxYtpjFRSS6omiX3Tm6G8rgt1Wv98Ion" alt="Yüzme">
+                <div class="course-card-overlay"></div>
+                <div class="course-card-body">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-droplet course-icon"></i>
+                        <span class="course-name">YÜZME</span>
+                    </div>
+                    <p class="course-desc">Yarı olimpik havuzda teknik geliştirme ve dayanıklılık.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="course-card">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrTlDVLkPXXe8x9EzeDAYH4IF2ksdUoyhMTIG1Fg3RjRYC7A4bqDQIsOYZmHkGjVFTdAZlRnkGpt3QnDqP7nebXO4tWyMCTuLzyqhpQdlRHyfnh8n9f6-erjsPk-WyftjuTrszI5eNPRVuTxv8nFf-i0GX4JfeEe_k5FNle3XW3U_q5HxtMtioqY6yr4IMcsaEcEpfTQ4_-HXaFHt-UdX9HkeJI7VFZ5Jm2P5lQugNOMZH34zqNuoWFv0-G-Q9bzf8f76u2mb_zEDc" alt="Yoga">
+                <div class="course-card-overlay"></div>
+                <div class="course-card-body">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-stars course-icon"></i>
+                        <span class="course-name">YOGA & ZUMBA</span>
+                    </div>
+                    <p class="course-desc">Ruhsal denge ve yüksek enerjili dans egzersizleri.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ ÇALIŞMA SAATLERİ & İLETİŞİM ══════════ -->
+<section class="info-section">
+    <div style="max-width:1400px;margin:0 auto;padding:0 2rem">
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <p class="section-label">PROGRAM VE DURUM</p>
+                <h3 class="hours-title">ÇALIŞMA SAATLERİ</h3>
+                <div class="hours-row"><span class="hours-day">HAFTA İÇİ</span><span class="hours-time">07:00 - 23:00</span></div>
+                <div class="hours-row"><span class="hours-day">HAFTA SONU</span><span class="hours-time">09:00 - 21:00</span></div>
+                <div class="d-flex align-items-center gap-3 mt-5">
+                    <div class="status-dot" id="status-dot"></div>
+                    <span class="status-text" id="status-text">ŞU AN AÇIĞIZ</span>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="contact-box">
+                    <h3 class="contact-title">İLETİŞİM</h3>
+                    <div style="position:relative;z-index:1">
+                        <div class="contact-item">
+                            <i class="bi bi-geo-alt-fill contact-icon"></i>
+                            <div><p class="contact-item-title">ADRES</p><p class="contact-item-text">İstinye, Beşiktaş / İstanbul</p></div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-envelope-fill contact-icon"></i>
+                            <div><p class="contact-item-title">E-POSTA</p><p class="contact-item-text">join@fitgymclub.com</p></div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-telephone-fill contact-icon"></i>
+                            <div><p class="contact-item-title">TELEFON</p><p class="contact-item-text">+90 (212) 555 00 00</p></div>
+                        </div>
+                    </div>
+                    <div class="contact-map">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzMhCPGFWiWk3Dzg22t8Hkbf4YO5gbUHhk_eCxND-Z3IKK6JY_bOyTBTriAC8wDcLI88rNc21rmxKU6qhwLsNmgqoounI9Dp0JYTT44tXThDjEfjFjFuzzmggcjDK0dP6JfrlPAt2TjXynj01bwnA9s25u5hTLeoA78-NtCYJaqRi00LzhhXrlZFE7jNpxXxldLOLKZRFQVzEVuTgFB5UfU0Q3pPktsC5BU9UqYPj-Dy1GQ4EU_EOrtnOZxVu2Sf5by0QEwpb7fiP4" alt="Harita">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="kinetic-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">FIT GYM CLUB</div>
+        <div class="d-flex flex-wrap gap-4">
+            <a href="pages/hakkimizda.html" class="footer-link">HAKKIMIZDA</a>
+            <a href="#" class="footer-link">İLETİŞİM</a>
+            <a href="#" class="footer-link">ÜYELİK SÖZLEŞMESİ</a>
+            <a href="#" class="footer-link">GİZLİLİK</a>
+        </div>
+        <div class="footer-copy">© 2026 FIT GYM CLUB. THE KINETIC VAULT.</div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Giriş durumuna göre navbar butonları
+    (function () {
+        const user   = localStorage.getItem('user');
+        const btnLeft  = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+
+        if (user) {
+            btnLeft.textContent  = 'PROFİLİ DÜZENLE';
+            btnLeft.onclick      = () => window.location.href = 'pages/profil.html';
+            btnRight.textContent = 'ÇIKIŞ YAP';
+            btnRight.onclick     = logoutNav;
+            btnRight.style.background = '#ef4444';
+        } else {
+            btnLeft.textContent  = 'GİRİŞ YAP';
+            btnLeft.onclick      = () => window.location.href = 'pages/giris.html';
+            btnRight.textContent = 'ÜYE OL';
+            btnRight.onclick     = () => window.location.href = 'pages/kayit.html';
+        }
+    })();
+
+    function logoutNav() {
+        fetch('http://localhost:8000/gym_backend/api/auth/logout.php', { credentials: 'include' })
+            .finally(() => { localStorage.clear(); location.reload(); });
+    }
+
+    // Açık/Kapalı durumu
+    (function () {
+        const now = new Date();
+        const h   = now.getHours();
+        const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+        const open = isWeekend ? 9 : 7, close = isWeekend ? 21 : 23;
+        if (h < open || h >= close) {
+            const dot  = document.getElementById('status-dot');
+            const text = document.getElementById('status-text');
+            if (dot)  { dot.style.background = '#ef4444'; dot.style.boxShadow = '0 0 15px #ef4444'; }
+            if (text) text.textContent = 'ŞU AN KAPALIĞIZ';
+        }
+    })();
+</script>
+</body>
+</html>

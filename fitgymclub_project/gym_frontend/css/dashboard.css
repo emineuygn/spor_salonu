@@ -1,0 +1,96 @@
+/* --- FIT GYM CLUB MODERN DASHBOARD STYLES --- */
+:root {
+    --primary: #ccff00;
+    --bg-dark: #080808;
+    --card-bg: #121212;
+    --input-bg: #1a1a1a;
+    --text-muted: #888;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body { 
+    background-color: var(--bg-dark); 
+    color: white; 
+    font-family: 'Inter', sans-serif; 
+    margin: 0; 
+    overflow-x: hidden;
+}
+
+/* Layout */
+.dashboard-wrapper {
+    max-width: 1200px;
+    margin: 120px auto 50px;
+    padding: 0 20px;
+}
+
+/* Karşılama Alanı */
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(145deg, #161616, #0d0d0d);
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid #222;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-section::before {
+    content: ''; 
+    position: absolute; 
+    top: 0; left: 0; 
+    width: 4px; height: 100%; 
+    background: var(--primary);
+}
+
+.welcome-text h1 { margin: 0; font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; }
+.membership-info { margin-top: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+
+/* Hızlı Link Butonları */
+.action-bar { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; }
+.action-btn {
+    background: var(--card-bg); border: 1px solid #222; color: white; padding: 14px 24px;
+    border-radius: 12px; text-decoration: none; font-weight: 700; white-space: nowrap; transition: var(--transition);
+}
+.action-btn:hover { border-color: var(--primary); background: #1a1a1a; transform: translateY(-3px); }
+
+/* Grid Yapısı */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+@media (max-width: 992px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+/* Kartlar */
+.glass-card {
+    background: var(--card-bg); border-radius: 24px; padding: 30px; border: 1px solid #222;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.glass-card h3 { margin-top: 0; font-weight: 800; color: var(--primary); text-transform: uppercase; font-size: 1rem; border-bottom: 1px solid #222; padding-bottom: 15px; margin-bottom: 20px; }
+
+/* Formlar */
+.modern-form .input-group { margin-bottom: 20px; }
+.modern-form label { display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 800; margin-bottom: 8px; letter-spacing: 1px; }
+.modern-form input {
+    width: 100%; padding: 15px; background: var(--input-bg); border: 1px solid #333;
+    border-radius: 12px; color: white; font-weight: 600; transition: var(--transition); box-sizing: border-box;
+}
+.modern-form input:focus { border-color: var(--primary); outline: none; background: #222; }
+.email-display { color: #fff; background: #000; padding: 15px; border-radius: 12px; display: block; border: 1px dashed #444; margin-bottom: 20px; font-weight: 700; }
+
+/* Tablolar */
+.modern-table { width: 100%; border-collapse: collapse; }
+.modern-table th { text-align: left; color: #555; text-transform: uppercase; font-size: 0.7rem; padding: 15px 10px; letter-spacing: 1px; }
+.modern-table td { padding: 18px 10px; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; font-weight: 600; }
+
+/* Güncelle Butonu */
+.btn-update {
+    background: var(--primary); color: black; border: none; padding: 18px;
+    font-weight: 900; border-radius: 12px; cursor: pointer; width: 100%;
+    text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); margin-top: 10px;
+}
+.btn-update:hover { box-shadow: 0 0 30px rgba(204, 255, 0, 0.3); transform: scale(1.02); }

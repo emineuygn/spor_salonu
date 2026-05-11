@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>FIT GYM CLUB | Kayıt Ol</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet"/>
+    <style>
+        :root { --lime: #c3f400; }
+        body { background-color: #0e0e0e; color: #e5e2e1; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; }
+
+        .auth-wrapper { display: flex; min-height: 100vh; }
+
+        .auth-image-side {
+            display: none; width: 60%; position: relative; overflow: hidden;
+        }
+        @media (min-width: 992px) { .auth-image-side { display: flex; } }
+
+        .auth-image-side img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) brightness(0.5) contrast(1.25); }
+        .auth-image-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,14,14,0.9) 0%, rgba(14,14,14,0.4) 50%, transparent 100%); }
+
+        .auth-image-content { position: relative; z-index: 10; padding: 4rem; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+
+        .auth-form-side {
+            width: 100%; background: #0e0e0e;
+            display: flex; align-items: center; justify-content: center; padding: 3rem 2rem;
+        }
+        @media (min-width: 992px) { .auth-form-side { width: 40%; } }
+
+        .auth-form-inner { width: 100%; max-width: 400px; }
+
+        .form-label-custom { display: block; font-size: .65rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #71717a; margin-bottom: .4rem; }
+
+        .form-control-custom {
+            width: 100%; background: #2a2a2a; border: none; border-radius: .625rem;
+            padding: 1rem 1.25rem; color: #fff; font-size: .9375rem; outline: none; transition: all .2s;
+        }
+        .form-control-custom:focus { background: #3a3939; box-shadow: 0 0 0 2px rgba(195,244,0,.2); }
+        .form-control-custom::placeholder { color: #52525b; }
+
+        .btn-lime {
+            width: 100%; background: var(--lime); color: #283500;
+            font-weight: 900; font-size: .8125rem; letter-spacing: .12em;
+            text-transform: uppercase; padding: 1.1rem; border: none;
+            border-radius: .625rem; cursor: pointer; transition: all .2s;
+        }
+        .btn-lime:hover { filter: brightness(1.08); }
+        .btn-lime:disabled { opacity: .6; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+<div class="auth-wrapper">
+
+    <!-- Sol: Görsel -->
+    <div class="auth-image-side">
+        <img alt="Gym"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU-mZ4gwghlJVRCeQo7fF8gGgwuTuyq5RRVk1tCsGTqYlXqyigF_kEEkA61g27SEqmvNefxRpdztxTk1QY65Y85hf39GpEGWW-Z9V-y3tf6smOxOhWK2N5SNnisxncUy2g5QvXH6nRujAGX8NM4PwoOlZKCpQAgdEHCOxYuWwyp7Igi7y_499FdNT46rIQHM4fT0ulgTOvp1yiVKpSTdSn3qiruK5D28IE62H7i243oQnN4SNPKLX4vPqe8UEJ3iCpuPEU4EdWHvWu"/>
+        <div class="auth-image-overlay"></div>
+        <div class="auth-image-content">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div style="height:2px;width:48px;background:var(--lime)"></div>
+                <span style="color:var(--lime);font-weight:700;letter-spacing:.3em;font-size:.7rem;text-transform:uppercase">Premium Performance</span>
+            </div>
+            <h1 style="color:#fff;font-size:5rem;font-weight:900;line-height:.9;letter-spacing:-.05em;font-style:italic;text-transform:uppercase;margin-bottom:1rem">FIT GYM CLUB</h1>
+            <h2 style="color:#71717a;font-size:1.5rem;font-weight:700;text-transform:uppercase;letter-spacing:-.02em">GÜCÜNÜ KEŞFET</h2>
+            <div class="d-none d-lg-grid mt-5" style="grid-template-columns:1fr 1fr;gap:2rem;border-left:1px solid #27272a;padding-left:2rem">
+                <div><span style="color:var(--lime);font-size:2rem;font-weight:900">24/7</span><p style="color:#71717a;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin:4px 0 0">Erişim</p></div>
+                <div><span style="color:var(--lime);font-size:2rem;font-weight:900">+50</span><p style="color:#71717a;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin:4px 0 0">Uzman Eğitmen</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ: Form -->
+    <div class="auth-form-side">
+        <div class="auth-form-inner">
+            <h3 style="color:#fff;font-size:1.75rem;font-weight:800;margin-bottom:.5rem">Aramıza Katıl</h3>
+            <p style="color:#71717a;margin-bottom:2rem">Kişisel hedeflerine giden yolculuk burada başlıyor.</p>
+
+            <form id="registerForm">
+                <div class="row g-3 mb-3">
+                    <div class="col-6">
+                        <label class="form-label-custom" for="ad">AD</label>
+                        <input class="form-control-custom" id="ad" placeholder="Örn. Can" required type="text"/>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label-custom" for="soyad">SOYAD</label>
+                        <input class="form-control-custom" id="soyad" placeholder="Örn. Yılmaz" required type="text"/>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-custom" for="email">E-POSTA ADRESİ</label>
+                    <div style="position:relative">
+                        <i class="bi bi-envelope" style="position:absolute;left:1.25rem;top:50%;transform:translateY(-50%);color:#52525b"></i>
+                        <input class="form-control-custom" id="email" placeholder="can@fitness.com" required type="email" style="padding-left:3rem"/>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-custom" for="sifre">ŞİFRE</label>
+                    <div style="position:relative">
+                        <i class="bi bi-lock" style="position:absolute;left:1.25rem;top:50%;transform:translateY(-50%);color:#52525b"></i>
+                        <input class="form-control-custom" id="sifre" placeholder="••••••••" required type="password" style="padding-left:3rem"/>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-2 mb-4">
+                    <input type="checkbox" id="terms" required style="width:18px;height:18px;margin-top:2px;accent-color:var(--lime)"/>
+                    <label for="terms" style="font-size:.8rem;color:#71717a;line-height:1.5">
+                        <a href="#" style="color:var(--lime);text-decoration:none">Kullanım Koşullarını</a> ve
+                        <a href="#" style="color:var(--lime);text-decoration:none">Gizlilik Politikasını</a> okudum, kabul ediyorum.
+                    </label>
+                </div>
+
+                <button class="btn-lime" type="submit">KAYIT OL</button>
+
+                <div id="message" style="text-align:center;font-size:.875rem;font-weight:600;min-height:1.5rem;margin-top:1rem"></div>
+            </form>
+
+            <hr style="border-color:rgba(255,255,255,.06);margin:2rem 0">
+
+            <p style="color:#71717a;font-size:.875rem;text-align:center">
+                Zaten üye misiniz?
+                <a href="giris.html" style="color:#fff;font-weight:700;text-decoration:none;margin-left:.25rem">Giriş Yap</a>
+            </p>
+
+            <div class="d-flex flex-column align-items-center gap-2 mt-4" style="opacity:.35">
+                <div class="d-flex gap-4">
+                    <span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em">Terms of Service</span>
+                    <span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em">Privacy Policy</span>
+                </div>
+                <p style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;text-align:center;margin:0">© 2026 FIT GYM CLUB. ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/auth.js"></script>
+</body>
+</html>

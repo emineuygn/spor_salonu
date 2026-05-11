@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT GYM CLUB | Profilim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lime: #c3f400;
+            --lime-on: #283500;
+            --bg: #0e0e0e;
+            --surface: #131313;
+            --surface-low: #1c1b1b;
+            --surface-high: #2a2a2a;
+            --surface-bright: #3a3939;
+            --border: #27272a;
+            --text: #e5e2e1;
+            --muted: #c4c9ac;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+
+        /* ── Sidebar ── */
+        .kinetic-sidebar {
+            width: 288px;
+            min-width: 288px;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            background: rgba(9,9,11,.6);
+            backdrop-filter: blur(20px);
+            border-radius: 0 24px 24px 0;
+            box-shadow: 24px 0 48px rgba(0,0,0,.4);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            z-index: 50;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            color: var(--lime);
+            font-size: 1.75rem;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -.05em;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .nav-link-kinetic {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: #71717a;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: .875rem;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+            border-radius: .75rem;
+            transition: all .2s;
+            margin-bottom: .25rem;
+        }
+        .nav-link-kinetic:hover { color: #e4e4e4; background: rgba(255,255,255,.04); }
+        .nav-link-kinetic.active {
+            background: var(--lime);
+            color: var(--lime-on);
+            border-radius: 24px;
+            font-weight: 900;
+            box-shadow: 0 8px 24px rgba(195,244,0,.15);
+        }
+        .nav-icon { font-size: 1.25rem; width: 1.5rem; flex-shrink: 0; }
+
+        .sidebar-profile {
+            margin-top: auto;
+            background: rgba(39,39,42,.5);
+            border-radius: .75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .sidebar-avatar-text {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 2px solid var(--lime);
+            background: var(--lime); color: var(--lime-on);
+            font-weight: 900; font-size: 1.125rem;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ── Main ── */
+        .kinetic-main { flex: 1; min-height: 100vh; }
+
+        .kinetic-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2.5rem;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: transparent;
+        }
+        .topbar-title {
+            font-size: 1.875rem;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -.05em;
+            text-transform: uppercase;
+            color: var(--lime);
+        }
+
+        /* ── Stat Cards ── */
+        .stat-card {
+            background: var(--surface-low);
+            border-radius: 1rem;
+            padding: 2rem;
+            height: 12rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: background .2s;
+        }
+        .stat-card:hover { background: var(--surface); }
+        .stat-icon { font-size: 2.5rem; color: var(--lime); }
+        .stat-label { font-size: .625rem; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; color: var(--muted); }
+        .stat-value { font-size: 3rem; font-weight: 900; letter-spacing: -.05em; color: #fff; line-height: 1; }
+
+        /* ── Form Section ── */
+        .form-section {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 2.5rem;
+        }
+        .form-section-title {
+            font-size: 1.125rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -.02em;
+            border-left: 4px solid var(--lime);
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+        }
+        .form-label-k {
+            display: block;
+            font-size: .625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--muted);
+            margin-bottom: .5rem;
+        }
+        .form-input-k {
+            width: 100%;
+            background: var(--surface-high);
+            border: none;
+            border-radius: .75rem;
+            padding: 1rem 1.5rem;
+            color: #fff;
+            font-size: .9375rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all .2s;
+        }
+        .form-input-k:focus { background: var(--surface-bright); box-shadow: 0 0 0 2px rgba(195,244,0,.2); }
+        .form-input-k::placeholder { color: #52525b; }
+        .form-input-k:disabled { opacity: .5; cursor: not-allowed; }
+
+        .email-locked {
+            display: flex;
+            align-items: center;
+            background: var(--surface-low);
+            border: 1px solid rgba(68,73,51,.4);
+            border-radius: .75rem;
+            padding: 1rem 1.5rem;
+            color: #9ca3af;
+        }
+
+        .btn-lime-k {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--lime);
+            color: var(--lime-on);
+            font-weight: 900;
+            font-size: .8125rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            border: none;
+            border-radius: .75rem;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-lime-k:hover { box-shadow: 0 0 30px rgba(195,244,0,.3); transform: translateY(-1px); }
+        .btn-lime-k:active { transform: scale(.98); }
+
+        /* ── Activity ── */
+        .activity-box {
+            background: var(--surface-low);
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+        .activity-title {
+            font-size: 1.0625rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -.02em;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: 1.5rem;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: .75rem;
+            margin-bottom: .75rem;
+            transition: background .2s;
+        }
+        .activity-item:hover { background: var(--surface); }
+        .activity-item:last-child { margin-bottom: 0; }
+
+        .activity-icon-wrap {
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0;
+        }
+        .icon-lime   { background: rgba(195,244,0,.1); color: var(--lime); }
+        .icon-gray   { background: rgba(255,255,255,.07); color: #9ca3af; }
+        .icon-red    { background: rgba(147,0,10,.2); color: #ffb4ab; }
+        .icon-yellow { background: rgba(250,204,21,.1); color: #facc15; }
+
+        .badge-k {
+            font-size: .625rem; font-weight: 900; text-transform: uppercase;
+            letter-spacing: .05em; padding: .25rem .75rem; border-radius: 999px;
+        }
+        .badge-lime   { background: rgba(195,244,0,.2); color: var(--lime); }
+        .badge-gray   { background: rgba(255,255,255,.1); color: #9ca3af; }
+        .badge-red    { background: rgba(147,0,10,.3); color: #ffb4ab; }
+        .badge-yellow { background: rgba(250,204,21,.1); color: #facc15; }
+
+        /* ── VIP Card ── */
+        .vip-card {
+            background: var(--lime);
+            border-radius: 1rem;
+            padding: 2rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all .2s;
+        }
+        .vip-card:hover { box-shadow: 0 0 30px rgba(195,244,0,.3); }
+        .vip-card-icon {
+            position: absolute; top: 0; right: 0;
+            padding: 1rem; opacity: .1; transform: scale(1.5);
+            font-size: 5rem; color: var(--lime-on);
+        }
+        .vip-title { font-size: 1.5rem; font-weight: 900; color: var(--lime-on); text-transform: uppercase; line-height: 1.2; }
+        .vip-sub { color: rgba(40,53,0,.7); font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; margin: .5rem 0 1.5rem; }
+        .vip-cta { display: flex; align-items: center; gap: .5rem; color: var(--lime-on); font-weight: 900; font-size: .625rem; text-transform: uppercase; letter-spacing: .2em; }
+
+        /* ── Üyelik Badge ── */
+        .uyelik-badge { font-size: .65rem; font-weight: 900; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: .08em; }
+        .uyelik-premium  { background: rgba(56,189,248,.15); color: #38bdf8; }
+        .uyelik-standart { background: rgba(250,204,21,.15); color: #facc15; }
+        .uyelik-temel    { background: rgba(255,255,255,.07); color: #71717a; }
+
+        /* ── Logout btn ── */
+        .btn-logout-k {
+            background: none; border: none; color: #71717a; cursor: pointer;
+            font-size: .8rem; font-weight: 600; font-family: 'Inter', sans-serif;
+            transition: color .2s;
+        }
+        .btn-logout-k:hover { color: #f87171; }
+    </style>
+</head>
+<body>
+<div class="d-flex min-vh-100">
+
+    <aside class="kinetic-sidebar">
+        <div class="sidebar-logo">FitGym</div>
+
+        <nav>
+            <a href="hizmetler.html" class="nav-link-kinetic">
+                <i class="bi bi-house-door nav-icon"></i> Ana Sayfa
+            </a>
+            <a href="#" class="nav-link-kinetic active">
+                <i class="bi bi-gear nav-icon"></i> Ayarlar
+            </a>
+        </nav>
+
+        <div class="sidebar-profile">
+            <div class="sidebar-avatar-text" id="sidebar-avatar">?</div>
+            <div>
+                <p id="sidebar-name" style="color:var(--lime);font-weight:900;font-size:.8rem;text-transform:uppercase;margin:0">Sporcu</p>
+                <p id="sidebar-uyelik" style="color:#71717a;font-size:.7rem;text-transform:uppercase;margin:0">Seçkin Üye</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="kinetic-main">
+        <header class="kinetic-topbar">
+            <h2 class="topbar-title">Profil Ayarları</h2>
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-bell" style="color:#71717a;font-size:1.25rem;cursor:pointer"></i>
+                <button class="btn-logout-k" onclick="logoutUser()">
+                    <i class="bi bi-box-arrow-left me-1"></i> Çıkış
+                </button>
+            </div>
+        </header>
+
+        <div style="padding:2.5rem">
+            <section class="mb-5">
+                <div class="d-flex align-items-end gap-4 flex-wrap">
+                    <div style="position:relative;flex-shrink:0">
+                        <div style="width:192px;height:192px;border-radius:50%;overflow:hidden;border:4px solid var(--surface);box-shadow:0 0 40px rgba(195,244,0,.2)">
+                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIQnRu_eKojIlErRpMirapyDAhHtgMGKArn_slT_xPvKnAQunwrmAaZVbNG80b8200TyAZcR6tqlvNxiSHABT_SiWA9AjiAV2UwuXQ7Vsuods2KUEDgwOm2Vktknbzpl4g0ZquH-htzN0kKY4Sk6faJWOAFDJxEfQOzTZjTRQZ0nrBjvJVd1d3bDumAdRMnYbukq5MJtPwUhIkoJR5vo_Z19uPiYz2Yvwgd10ovcbpO38159BihtcsOmMm4lNbvVWPg7TUFJXEjVdI"
+                                 style="width:100%;height:100%;object-fit:cover" alt="Profil">
+                        </div>
+                        <div id="uyelik-badge" class="uyelik-badge uyelik-temel"
+                             style="position:absolute;bottom:-4px;right:-4px">Temel</div>
+                    </div>
+                    <div style="margin-bottom:1rem">
+                        <span style="color:var(--muted);font-weight:900;letter-spacing:.2em;text-transform:uppercase;font-size:.7rem">
+                            Üye No: #<span id="user-id">—</span>
+                        </span>
+                        <h3 id="full-name" style="font-size:3.5rem;font-weight:900;color:#fff;letter-spacing:-.05em;line-height:1;margin:.5rem 0">
+                            Yükleniyor...
+                        </h3>
+                        <p id="hero-sub" style="color:#9ca3af;max-width:400px;font-size:.9375rem;margin:0">
+                            Fit Gym Club üyesi. Sınırlarını zorla!
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="mb-5">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <i class="bi bi-lightning-charge-fill stat-icon"></i>
+                            <div>
+                                <p class="stat-label">Toplam Rezervasyon</p>
+                                <p class="stat-value" id="stat-rez">—</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <i class="bi bi-calendar-check stat-icon"></i>
+                            <div>
+                                <p class="stat-label">Kalan Üyelik Günü</p>
+                                <p class="stat-value" id="kalan-gun">—</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <i class="bi bi-star-fill stat-icon"></i>
+                            <div>
+                                <p class="stat-label">Sadakat Puanları</p>
+                                <p class="stat-value">4,850</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="form-section">
+                            <h4 class="form-section-title">Hesap Bilgileri</h4>
+                            <form id="profile-form">
+                                <div class="row g-3 mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label-k">Ad</label>
+                                        <input type="text" id="f-ad" class="form-input-k" placeholder="Ad">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label-k">Soyad</label>
+                                        <input type="text" id="f-soyad" class="form-input-k" placeholder="Soyad">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label-k">E-posta Adresi (Kilitli)</label>
+                                    <div class="email-locked">
+                                        <span id="f-email" class="flex-grow-1">—</span>
+                                        <i class="bi bi-lock" style="color:#71717a"></i>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label-k">Telefon Numarası</label>
+                                    <input type="tel" id="f-telefon" class="form-input-k" placeholder="+90 555 000 00 00">
+                                </div>
+                                <button type="submit" class="btn-lime-k">Profil Değişikliklerini Kaydet</button>
+                                <div id="profile-msg" style="text-align:center;font-size:.8rem;font-weight:600;min-height:1.5rem;margin-top:.75rem"></div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="activity-box mb-4" id="rezervasyonlar">
+                            <div class="activity-title">
+                                <i class="bi bi-clock-history" style="color:var(--lime)"></i>
+                                Aktivite Akışı
+                            </div>
+                            <div id="activity-list">
+                                <div style="text-align:center;color:#52525b;font-size:.8rem;font-style:italic;padding:1rem">
+                                    <span class="spinner-border spinner-border-sm me-2 text-secondary"></span> Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vip-card" onclick="window.location.href='hizmetler.html'">
+                            <div class="vip-card-icon"><i class="bi bi-activity"></i></div>
+                            <h4 class="vip-title">VIP Statüsüne<br/>Yükselt</h4>
+                            <p class="vip-sub">7/24 Erişim ve Özel Koçluk Alın</p>
+                            <div class="vip-cta">
+                                Avantajları Keşfedin <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const API = 'http://localhost:8000/gym_backend/api';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const raw = localStorage.getItem('user');
+    if (!raw) { window.location.href = 'giris.html'; return; }
+
+    let user = {};
+    try { user = JSON.parse(raw); } catch (_) { window.location.href = 'giris.html'; return; }
+
+    setUserUI(user);
+
+    try {
+        const res  = await fetch(`${API}/members/profile.php`, { credentials: 'include' });
+        const data = await res.json();
+        if (data.success && data.data) {
+            const d = data.data;
+            document.getElementById('f-ad').value      = d.ad      || '';
+            document.getElementById('f-soyad').value   = d.soyad   || '';
+            document.getElementById('f-telefon').value = d.telefon  || '';
+            document.getElementById('full-name').textContent = ((d.ad||'') + ' ' + (d.soyad||'')).trim() || 'Üye';
+
+            const tip = d.uyelik_tipi || 'temel';
+            const badge = document.getElementById('uyelik-badge');
+            badge.textContent = tip.charAt(0).toUpperCase() + tip.slice(1);
+            badge.className = `uyelik-badge uyelik-${tip}`;
+            document.getElementById('sidebar-uyelik').textContent = tip.toUpperCase() + ' ÜYE';
+
+            if (d.uyelik_bitis_tarihi) {
+                const gun = Math.ceil((new Date(d.uyelik_bitis_tarihi) - new Date()) / 86400000);
+                document.getElementById('kalan-gun').textContent = gun > 0 ? gun : '0';
+            }
+        }
+    } catch (_) {}
+
+    try {
+        const res  = await fetch(`${API}/reservations/history.php`, { credentials: 'include' });
+        const data = await res.json();
+        if (data.success) {
+            renderActivity([...(data.upcoming||[]), ...(data.history||[])]);
+            document.getElementById('stat-rez').textContent = ((data.upcoming?.length||0) + (data.history?.length||0));
+        }
+    } catch (_) {
+        document.getElementById('activity-list').innerHTML = '<p style="color:#52525b;font-size:.8rem;font-style:italic;text-align:center;padding:1rem">Veri alınamadı.</p>';
+    }
+
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = document.getElementById('profile-msg');
+        try {
+            const res = await fetch(`${API}/members/profile.php`, {
+                method: 'POST', credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ad:      document.getElementById('f-ad').value.trim(),
+                    soyad:   document.getElementById('f-soyad').value.trim(),
+                    telefon: document.getElementById('f-telefon').value.trim(),
+                })
+            });
+            const result = await res.json();
+            msg.style.color = result.success ? '#c3f400' : '#f87171';
+            msg.textContent  = result.message;
+            if (result.success) {
+                const u = JSON.parse(localStorage.getItem('user') || '{}');
+                u.ad = document.getElementById('f-ad').value.trim();
+                u.soyad = document.getElementById('f-soyad').value.trim();
+                localStorage.setItem('user', JSON.stringify(u));
+                document.getElementById('full-name').textContent    = (u.ad + ' ' + u.soyad).trim();
+                document.getElementById('sidebar-name').textContent = u.ad;
+                document.getElementById('sidebar-avatar').textContent = (u.ad[0]||'?').toUpperCase();
+            }
+        } catch (_) { msg.style.color = '#f87171'; msg.textContent = 'Bağlantı hatası.'; }
+    });
+});
+
+function setUserUI(user) {
+    const ad = user.ad || '', soyad = user.soyad || '';
+    document.getElementById('full-name').textContent      = (ad+' '+soyad).trim() || 'Üye';
+    document.getElementById('sidebar-name').textContent   = ad || 'Sporcu';
+    document.getElementById('sidebar-avatar').textContent = (ad[0]||'?').toUpperCase();
+    document.getElementById('user-id').textContent        = user.uye_id || '—';
+    document.getElementById('f-ad').value                 = ad;
+    document.getElementById('f-soyad').value              = soyad;
+    document.getElementById('f-email').textContent        = user.email || '—';
+}
+
+function renderActivity(list) {
+    const el = document.getElementById('activity-list');
+    if (!list.length) {
+        el.innerHTML = '<p style="color:#52525b;font-size:.8rem;font-style:italic;text-align:center;padding:1rem">Henüz rezervasyon yok.</p>';
+        return;
+    }
+    el.innerHTML = list.slice(0,4).map(r => {
+        const durum  = r.durum || '';
+        const isIptal = durum === 'iptal';
+        const isDone  = durum === 'onaylandi';
+        const iconWrap = isIptal ? 'icon-red' : isDone ? 'icon-lime' : 'icon-yellow';
+        const icon     = isIptal ? 'bi-x-circle' : isDone ? 'bi-calendar-check' : 'bi-clock';
+        const badgeCls = isIptal ? 'badge-red' : isDone ? 'badge-lime' : 'badge-yellow';
+        return `
+        <div class="activity-item">
+            <div class="d-flex align-items-center gap-3">
+                <div class="activity-icon-wrap ${iconWrap}"><i class="bi ${icon}"></i></div>
+                <div>
+                    <p style="font-size:.875rem;font-weight:700;color:#fff;margin:0">${r.hizmet_adi || '—'}</p>
+                    <p style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:0">${formatDate(r.tarih)} · ${(r.saat||'').slice(0,5)}</p>
+                </div>
+            </div>
+            <span class="badge-k ${badgeCls}">${durum || '—'}</span>
+        </div>`;
+    }).join('');
+}
+
+function formatDate(d) {
+    if (!d) return '—';
+    const [y,m,g] = d.split('-');
+    const months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+    return `${parseInt(g)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+function logoutUser() {
+    fetch(`${API}/auth/logout.php`, { credentials: 'include' })
+        .finally(() => { localStorage.clear(); window.location.href = 'giris.html'; });
+}
+</script>
+</body>
+</html>

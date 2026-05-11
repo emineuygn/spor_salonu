@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezervasyon - Fit Gym Club</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/navbar.css"> 
+    <style>
+        body { background-color: #0b0b0b; color: white; font-family: sans-serif; margin: 0; }
+        
+        .res-container { 
+            max-width: 900px; 
+            margin: 120px auto 50px; 
+            padding: 20px; 
+        }
+
+        .date-input {
+            width: 100%; padding: 12px; background: #1a1a1a; border: 2px solid #333;
+            color: white; border-radius: 8px; font-size: 1rem; margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .service-select { 
+            width: 100%; padding: 15px; background: #1a1a1a; border: 2px solid #333; 
+            color: #ccff00; font-size: 1.1rem; border-radius: 8px; margin-bottom: 30px; 
+        } 
+
+        .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        
+        .slot-card { 
+            background: #111; border: 1px solid #444; padding: 20px; border-radius: 10px; 
+            transition: 0.3s; text-align: center; cursor: pointer;
+        }
+
+        .slot-card:hover { border-color: #ccff00; box-shadow: 0 0 15px rgba(204, 255, 0, 0.3); }
+        .slot-card.full { border-color: #ff0055; opacity: 0.6; cursor: not-allowed; }
+
+        .time { display: block; font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
+        .capacity { color: #888; font-size: 0.9rem; }
+
+        .btn-reserve { 
+            margin-top: 15px; background: #ccff00; color: black; border: none; 
+            padding: 8px 15px; border-radius: 5px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-reserve:hover { background: #b3e600; transform: scale(1.05); }
+    </style>
+</head>
+<body> 
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">FIT GYM CLUB</a>
+        
+        <div class="nav-right">
+            <ul class="nav-links" id="nav-links">
+                </ul>
+            <div class="nav-buttons" id="nav-buttons">
+                </div>
+        </div>
+
+        <div class="menu-toggle">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <div class="res-container">
+        <h2 style="color: #ccff00;">DERS REZERVASYONU</h2>
+
+        <label style="color: #888; display: block; margin-bottom: 5px;">Branş Seçin:</label>
+        <select id="serviceDropdown" class="service-select"> 
+            <option value="">Lütfen bir ders seçin...</option>
+        </select>
+
+        <label style="color: #888; display: block; margin-bottom: 5px;">Randevu Tarihi:</label>
+        <input type="date" id="rezTarih" class="date-input">
+
+        <div id="slotsContainer" class="slots-grid">
+            </div>
+    </div>
+
+    <script src="../js/navbar.js"></script>
+    <script src="../js/rezervasyon.js"></script> 
+</body>
+</html>

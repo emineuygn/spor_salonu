@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hizmetler & Programlar | Fit Gym Club</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --lime: #c3f400; --bg: #0b0b0b; --card: #161616; }
+        body { background-color: var(--bg); color: white; font-family: 'Inter', sans-serif; margin: 0; }
+
+        /* Arka Plan Efekti */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: -1;
+            background:
+                radial-gradient(ellipse 80% 40% at 20% 0%, rgba(195,244,0,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(195,244,0,0.04) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(195,244,0,0.02) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Grid çizgileri */
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: -1;
+            background-image:
+                linear-gradient(rgba(195,244,0,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(195,244,0,0.025) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 0%, transparent 75%);
+            pointer-events: none;
+        }
+
+        .site-navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(9,9,11,.8); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,.05);
+            padding: 0 2rem; height: 72px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo { font-size: 1.125rem; font-weight: 900; font-style: italic; color: #fff; text-decoration: none; letter-spacing: -.04em; }
+        .nav-logo span { color: var(--lime); }
+        .nav-link-item { color: #71717a; text-decoration: none; font-size: .875rem; font-weight: 600; transition: color .2s; }
+        .nav-link-item:hover { color: #fff; }
+
+        /* Price Cards */
+        .price-card {
+            background: var(--card); border: 1px solid #222; padding: 2.25rem;
+            border-radius: 1.5rem; transition: all .3s; position: relative; height: 100%;
+            overflow: hidden;
+        }
+        .price-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #333, #444, #333); transition: all .3s;
+        }
+        .price-card:hover { transform: translateY(-10px); border-color: #333; box-shadow: 0 25px 50px rgba(0,0,0,.5); }
+        .price-card:hover::before { background: linear-gradient(90deg, #555, #777, #555); }
+
+        /* Temel - mavi ton */
+        .price-card.plan-temel { border-color: #1a2535; }
+        .price-card.plan-temel::before { background: linear-gradient(90deg, #1e3a5f, #2563eb, #1e3a5f); }
+        .price-card.plan-temel:hover { border-color: #2563eb; box-shadow: 0 25px 50px rgba(37,99,235,.12); }
+        .plan-temel .price-accent { color: #60a5fa; }
+
+        /* Standart - mor ton */
+        .price-card.plan-standart { border-color: #2d1b4e; }
+        .price-card.plan-standart::before { background: linear-gradient(90deg, #4c1d95, #8b5cf6, #4c1d95); }
+        .price-card.plan-standart:hover { border-color: #8b5cf6; box-shadow: 0 25px 50px rgba(139,92,246,.12); }
+        .plan-standart .price-accent { color: #a78bfa; }
+        .price-card.plan-standart .price-badge { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; }
+
+        /* Premium - lime ton */
+        .price-card.plan-premium {
+            border-color: rgba(195,244,0,.25);
+            background: linear-gradient(160deg, #0f1400 0%, #111 100%);
+        }
+        .price-card.plan-premium::before { background: linear-gradient(90deg, rgba(195,244,0,.3), var(--lime), rgba(195,244,0,.3)); }
+        .price-card.plan-premium:hover { border-color: rgba(195,244,0,.5); box-shadow: 0 25px 50px rgba(195,244,0,.1); }
+        .plan-premium .price-accent { color: var(--lime); text-shadow: 0 0 20px rgba(195,244,0,.3); }
+
+        .price-badge {
+            position: absolute; top: 1.25rem; right: 1.25rem;
+            background: var(--lime); color: #1a2200;
+            font-size: .6rem; font-weight: 900; padding: 4px 12px;
+            border-radius: 999px; letter-spacing: .08em; text-transform: uppercase;
+        }
+        .price-plan-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+        .price-title { font-size: .7rem; letter-spacing: .2em; font-weight: 800; color: #52525b; text-transform: uppercase; margin-bottom: .35rem; }
+        .price-amount { font-size: 3rem; font-weight: 900; margin: .5rem 0; line-height: 1; }
+        .price-amount span { font-size: .9rem; color: #555; font-weight: 400; }
+        .price-features { list-style: none; padding: 0; margin: 1.5rem 0; }
+        .price-features li {
+            display: flex; align-items: center; gap: .625rem;
+            margin-bottom: .75rem; font-size: .875rem; color: #555;
+        }
+        .price-features li.feat-on { color: #d4d4d8; }
+        .price-features li .feat-icon { font-size: .875rem; flex-shrink: 0; }
+        .feat-on .feat-icon { color: var(--lime); }
+        .feat-off .feat-icon { color: #333; }
+
+        .btn-lime-full { background: linear-gradient(135deg, var(--lime), #abd600); color: #1a2200; font-weight: 900; font-size: .875rem; letter-spacing: .06em; text-transform: uppercase; padding: .875rem; border: none; border-radius: .75rem; cursor: pointer; width: 100%; transition: all .2s; box-shadow: 0 0 20px rgba(195,244,0,.15); }
+        .btn-lime-full:hover { box-shadow: 0 0 30px rgba(195,244,0,.3); transform: translateY(-1px); }
+
+        .btn-blue-full { background: linear-gradient(135deg, #1d4ed8, #2563eb); color: #fff; font-weight: 900; font-size: .875rem; letter-spacing: .06em; text-transform: uppercase; padding: .875rem; border: none; border-radius: .75rem; cursor: pointer; width: 100%; transition: all .2s; }
+        .btn-blue-full:hover { box-shadow: 0 0 25px rgba(37,99,235,.3); transform: translateY(-1px); }
+
+        .btn-purple-full { background: linear-gradient(135deg, #6d28d9, #8b5cf6); color: #fff; font-weight: 900; font-size: .875rem; letter-spacing: .06em; text-transform: uppercase; padding: .875rem; border: none; border-radius: .75rem; cursor: pointer; width: 100%; transition: all .2s; }
+        .btn-purple-full:hover { box-shadow: 0 0 25px rgba(139,92,246,.3); transform: translateY(-1px); }
+
+        /* Branch Cards */
+        .brans-card {
+            background: #111; border: 1px solid #222; padding: 2rem;
+            border-radius: 1.25rem; text-align: center; cursor: pointer; transition: .3s;
+        }
+        .brans-card:hover { background: #1a1a1a; border-color: var(--lime); transform: scale(1.04); }
+        .brans-card span { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+        .brans-card h4 { margin: 0; font-weight: 700; letter-spacing: .05em; font-size: 1rem; }
+
+        .section-title { font-size: 2.25rem; font-weight: 900; letter-spacing: -1px; }
+        .section-title span { color: var(--lime); }
+
+        /* Programlar bölümü arka efekt */
+        .programs-section {
+            position: relative;
+        }
+        .programs-section::before {
+            content: '';
+            position: absolute;
+            top: -80px; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 300px;
+            background: radial-gradient(ellipse, rgba(195,244,0,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge { background: rgba(195,244,0,.1); color: var(--lime); padding: 6px 18px; border-radius: 999px; font-weight: 700; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+<nav class="site-navbar">
+    <a href="../index.html" class="nav-logo">FIT<span>GYM</span> CLUB</a>
+    <div class="d-none d-md-flex gap-4 align-items-center">
+        <a href="hizmetler.html" class="nav-link-item" style="color:#fff">Hizmetler</a>
+        <a href="hakkimizda.html" class="nav-link-item">Hakkımızda</a>
+        <a href="profil.html" class="nav-link-item">Profil</a>
+        <a href="giris.html" style="background:var(--lime);color:#1a2200;padding:.5rem 1.25rem;border-radius:.5rem;font-weight:800;font-size:.8rem;text-decoration:none">ÇIKIŞ YAP</a>
+    </div>
+</nav>
+
+<main class="container" style="max-width:1100px;padding-top:160px;padding-bottom:6rem;position:relative">
+
+    <!-- Programlar -->
+    <section class="mb-5 programs-section">
+        <div class="text-center mb-5">
+            <span class="hero-badge">SANA UYGUN OLANI SEÇ</span>
+            <h2 class="section-title mt-3">PROGRAMLAR<span style="background:linear-gradient(120deg,#fff 0%,var(--lime) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent">IMIZ</span></h2>
+            <p style="color:#555;font-size:.9rem;margin-top:.75rem">İhtiyacına en uygun paketi seç, hemen başla</p>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Temel -->
+            <div class="col-md-4">
+                <div class="price-card">
+                    <span class="price-plan-icon">🏃</span>
+                    <div class="price-title">TEMEL PLAN</div>
+                    <div class="price-amount">12.900 <span>TL /ay</span></div>
+                    <p class="price-sub">Spora yeni başlayanlar için ideal giriş paketi.</p>
+                    <div class="price-divider"></div>
+                    <ul class="price-features">
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Haftada 3 Gün Kullanım</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Standart Ekipmanlar</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Soyunma Odası Erişimi</li>
+                        <li class="feat-off"><i class="bi bi-x-circle feat-icon"></i> Grup Dersleri</li>
+                        <li class="feat-off"><i class="bi bi-x-circle feat-icon"></i> 7/24 Erişim</li>
+                        <li class="feat-off"><i class="bi bi-x-circle feat-icon"></i> Kişisel Antrenör</li>
+                    </ul>
+                    <button class="btn-lime-full" onclick="bransTikla(1, 'Temel Paket')">Paketi Seç</button>
+                </div>
+            </div>
+
+            <!-- Standart -->
+            <div class="col-md-4">
+                <div class="price-card">
+                    <div class="price-badge">EN POPÜLER</div>
+                    <span class="price-plan-icon">💪</span>
+                    <div class="price-title">STANDART PLAN</div>
+                    <div class="price-amount">16.500 <span>TL /ay</span></div>
+                    <p class="price-sub">Düzenli spor yapanlar için dengeli seçim.</p>
+                    <div class="price-divider"></div>
+                    <ul class="price-features">
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Haftada 5 Gün Kullanım</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Tüm Ekipmanlar</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Grup Dersleri (Haftada 2)</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Soyunma Odası + Duş</li>
+                        <li class="feat-off"><i class="bi bi-x-circle feat-icon"></i> 7/24 Erişim</li>
+                        <li class="feat-off"><i class="bi bi-x-circle feat-icon"></i> Kişisel Antrenör</li>
+                    </ul>
+                    <button class="btn-lime-full" onclick="bransTikla(2, 'Standart Paket')">Paketi Seç</button>
+                </div>
+            </div>
+
+            <!-- Premium -->
+            <div class="col-md-4">
+                <div class="price-card featured">
+                    <span class="price-plan-icon">⚡</span>
+                    <div class="price-title">PREMİUM PLAN</div>
+                    <div class="price-amount lime">19.900 <span>TL /ay</span></div>
+                    <p class="price-sub">Sınırsız erişim, maksimum performans.</p>
+                    <div class="price-divider"></div>
+                    <ul class="price-features">
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> 7/24 Sınırsız Erişim</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Tüm Grup Dersleri</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Kişisel Antrenör (Ayda 4)</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Özel Havlu & İçecek</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Ücretsiz Otopark</li>
+                        <li class="feat-on"><i class="bi bi-check-circle-fill feat-icon"></i> Öncelikli Rezervasyon</li>
+                    </ul>
+                    <button class="btn-lime-full" onclick="bransTikla(3, 'Premium Paket')">Paketi Seç</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Branşlar -->
+    <section style="margin-top:5rem">
+        <h2 class="section-title text-center mb-2">BRANŞLARIMIZ</h2>
+        <p class="text-center mb-4" style="color:#52525b;font-size:.875rem">Bir derse tıkla, hemen başla</p>
+        <div class="row g-3">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brans-card" onclick="bransTikla(1, 'Fitness')">
+                    <span>🏋️</span><h4>Fitness</h4>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brans-card" onclick="bransTikla(2, 'Pilates')">
+                    <span>🤸‍♀️</span><h4>Pilates</h4>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brans-card" onclick="bransTikla(3, 'Yoga')">
+                    <span>🧘‍♀️</span><h4>Yoga</h4>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brans-card" onclick="bransTikla(4, 'Boks')">
+                    <span>🥊</span><h4>Boks</h4>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brans-card" onclick="bransTikla(5, 'Yüzme')">
+                    <span>🏊‍♂️</span><h4>Yüzme</h4>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brans-card" onclick="bransTikla(6, 'Zumba')">
+                    <span>🚴‍♂️</span><h4>Zumba</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Giriş Gerekli Modal -->
+<div class="modal fade" id="girisModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#111;border:1px solid rgba(195,244,0,0.15);border-radius:1.25rem;color:#e5e2e1">
+            <!-- Üst lime çizgi -->
+            <div style="height:2px;background:linear-gradient(90deg,transparent,#c3f400,transparent);border-radius:1.25rem 1.25rem 0 0"></div>
+            <div class="p-4">
+                <!-- Başlık -->
+                <div class="text-center mb-4">
+                    <div style="width:64px;height:64px;background:rgba(195,244,0,0.08);border:1px solid rgba(195,244,0,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.75rem">🏋️</div>
+                    <h5 class="fw-black mb-1" style="color:#fff;font-size:1.25rem">Devam etmek için giriş yap</h5>
+                    <p style="color:#52525b;font-size:.875rem;margin:0">
+                        <span id="modal-ders-adi" style="color:#c3f400;font-weight:700"></span> dersine kayıt olmak için hesabın olması gerekiyor.
+                    </p>
+                </div>
+
+                <!-- Seçenekler -->
+                <div class="d-grid gap-2 mb-3">
+                    <button onclick="modalGirisYap()" style="background:linear-gradient(135deg,#c3f400,#abd600);color:#1a2200;font-weight:900;font-size:.9rem;padding:.875rem;border:none;border-radius:.75rem;cursor:pointer;letter-spacing:.04em">
+                        🔑 Giriş Yap
+                    </button>
+                    <button onclick="modalKayitOl()" style="background:transparent;color:#c3f400;font-weight:700;font-size:.875rem;padding:.875rem;border:1px solid rgba(195,244,0,0.25);border-radius:.75rem;cursor:pointer">
+                        ✨ Ücretsiz Üye Ol
+                    </button>
+                </div>
+
+                <button onclick="modalKapat()" style="background:transparent;border:none;color:#3f3f46;font-size:.8rem;width:100%;cursor:pointer;padding:.5rem">
+                    Vazgeç
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let seciliHizmetId  = null;
+let seciliHizmetAdi = null;
+let girisModal      = null;
+
+function bransTikla(hizmetId, hizmetAdi) {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+        // Giriş yapılmış → direkt ödemeye git
+        satinAlmayaGit(hizmetId, hizmetAdi);
+    } else {
+        // Giriş yapılmamış → modal göster
+        seciliHizmetId  = hizmetId;
+        seciliHizmetAdi = hizmetAdi;
+        document.getElementById('modal-ders-adi').textContent = hizmetAdi;
+        if (!girisModal) girisModal = new bootstrap.Modal(document.getElementById('girisModal'));
+        girisModal.show();
+    }
+}
+
+function satinAlmayaGit(hizmetId, hizmetAdi) {
+    localStorage.setItem('secilenHizmetId',  hizmetId);
+    localStorage.setItem('secilenHizmetAdi', hizmetAdi);
+    window.location.href = 'odeme.html';
+}
+
+function modalGirisYap() {
+    // Giriş sonrası geri dönmek için hedefi kaydet
+    if (seciliHizmetId) {
+        localStorage.setItem('secilenHizmetId',  seciliHizmetId);
+        localStorage.setItem('secilenHizmetAdi', seciliHizmetAdi);
+    }
+    window.location.href = 'giris.html';
+}
+
+function modalKayitOl() {
+    if (seciliHizmetId) {
+        localStorage.setItem('secilenHizmetId',  seciliHizmetId);
+        localStorage.setItem('secilenHizmetAdi', seciliHizmetAdi);
+    }
+    window.location.href = 'kayit.html';
+}
+
+function modalKapat() { girisModal?.hide(); }
+
+// Paket satın alma (üst kısımdaki butonlar) da aynı kontrolü yapsın
+function satinAlmayaGitKontrol(hizmetId, hizmetAdi) {
+    bransTikla(hizmetId, hizmetAdi);
+}
+</script>
+</body>
+</html>

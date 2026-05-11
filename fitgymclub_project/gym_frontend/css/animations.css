@@ -1,0 +1,28 @@
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1, .hero p, .hero-btns {
+    animation: slideUp 0.8s ease-out forwards;
+}
+
+.hero p { animation-delay: 0.2s; }
+.hero-btns { animation-delay: 0.4s; }
+
+/* Buton Hover Parlaması */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+    background: var(--altin);
+    color: var(--siyah);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: var(--altin-acik);
+    box-shadow: 0 0 20px rgba(245, 197, 24, 0.4);
+}

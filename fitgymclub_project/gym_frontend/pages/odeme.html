@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödeme Yap | Fit Gym Club</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --lime: #c3f400; }
+        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+
+        .payment-card {
+            width: 100%; max-width: 460px;
+            background: #111; border: 1px solid var(--lime);
+            border-radius: 1.25rem; padding: 2.5rem;
+            box-shadow: 0 0 40px rgba(195,244,0,.15);
+        }
+
+        .pay-title { color: var(--lime); text-align: center; text-transform: uppercase; letter-spacing: .15em; font-size: 1.25rem; font-weight: 900; margin-bottom: .5rem; }
+
+        .selected-pkg { text-align: center; font-weight: 700; color: #aaa; font-size: .9rem; padding-bottom: 1.25rem; border-bottom: 1px solid #222; margin-bottom: 1.5rem; }
+        .selected-pkg span { color: var(--lime); }
+
+        .form-label-pay { font-size: .75rem; color: #888; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .4rem; display: block; }
+
+        .form-control-pay {
+            width: 100%; padding: .875rem 1rem; background: #222;
+            border: 1px solid #333; border-radius: .625rem; color: #fff;
+            font-size: 1rem; outline: none; transition: all .2s;
+        }
+        .form-control-pay:focus { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(195,244,0,.15); }
+        .form-control-pay::placeholder { color: #555; }
+
+        .btn-pay {
+            width: 100%; padding: 1rem; background: var(--lime); color: #000;
+            border: none; border-radius: .75rem; font-weight: 900; font-size: 1rem;
+            text-transform: uppercase; letter-spacing: .08em; cursor: pointer;
+            margin-top: 1.25rem; transition: all .2s;
+        }
+        .btn-pay:hover { box-shadow: 0 0 25px rgba(195,244,0,.4); }
+        .btn-pay:disabled { opacity: .6; cursor: not-allowed; }
+
+        .back-link { display: block; text-align: center; margin-top: 1.25rem; color: #555; text-decoration: none; font-size: .8rem; transition: color .2s; }
+        .back-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="payment-card">
+    <div class="pay-title"><i class="bi bi-credit-card me-2"></i>ÖDEME PANELİ</div>
+    <div class="selected-pkg">Seçilen: <span id="paket-adi">Yükleniyor...</span></div>
+
+    <form id="payment-form">
+        <div class="mb-3">
+            <label class="form-label-pay">KART ÜZERİNDEKİ İSİM</label>
+            <input type="text" id="card-name" class="form-control-pay" placeholder="Ad Soyad" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label-pay">KART NUMARASI</label>
+            <input type="text" id="card-number" class="form-control-pay" placeholder="0000 0000 0000 0000" maxlength="16" required>
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-8">
+                <label class="form-label-pay">SON KULLANMA</label>
+                <input type="text" class="form-control-pay" placeholder="AA/YY" maxlength="5" required>
+            </div>
+            <div class="col-4">
+                <label class="form-label-pay">CVV</label>
+                <input type="password" class="form-control-pay" placeholder="***" maxlength="3" required>
+            </div>
+        </div>
+        <button type="submit" class="btn-pay" id="pay-btn">ÖDEMEYİ ONAYLA</button>
+    </form>
+
+    <a href="hizmetler.html" class="back-link">← İptal Et ve Geri Dön</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ad = localStorage.getItem('secilenHizmetAdi') || 'Hizmet Seçilmedi';
+        const id = localStorage.getItem('secilenHizmetId');
+        document.getElementById('paket-adi').textContent = ad;
+
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('pay-btn');
+            btn.textContent = 'İŞLENİYOR...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:8000/gym_backend/api/payments/pay.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ hizmet_id: id })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('✅ ' + result.message);
+                    window.location.href = 'profil.html';
+                } else {
+                    alert('❌ ' + result.message);
+                    btn.textContent = 'ÖDEMEYİ ONAYLA';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                alert('Sunucuya bağlanılamadı. Backend (8000) çalışıyor mu?');
+                btn.textContent = 'ÖDEMEYİ ONAYLA';
+                btn.disabled = false;
+            }
+        });
+    });
+</script>
+</body>
+</html>

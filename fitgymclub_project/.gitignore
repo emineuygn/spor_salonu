@@ -1,0 +1,9 @@
+# Veritabanı yapılandırması
+backend/config/db.php
+
+# Ortam değişkenleri
+.env
+
+# İşletim sistemi dosyaları
+.DS_Store
+Thumbs.db
