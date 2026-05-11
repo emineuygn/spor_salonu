@@ -9,104 +9,51 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="egitmen.css" rel="stylesheet">
-    
     <style>
-        /* Takvim ve Genel Görünüm Güzelleştirmeleri */
-        :root {
-            --lime: #c3f400;
-            --lime-dark: #283500;
-            --surface: #1c1b1b;
-        }
+    /* Takvim Kartlarını Beyaz Yapma */
+    .trainer-class-card {
+        background: #7d7676 !important; /* Arka plan bembeyaz */
+        border: 1px solid #e5e7eb !important; /* Hafif gri kenarlık */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important; /* Hafif gölge */
+    }
 
-        /* Eğitmen Kartı Tasarımı (Takvim için) */
-        .trainer-class-card {
-            background: var(--surface);
-            border: 1px solid #27272a;
-            border-radius: 24px;
-            padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            height: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
+    /* Yazı renklerini siyah/koyu gri yaparak okunabilirliği artırıyoruz */
+    .t-class-time {
+        color: #111827 !important; /* Saat rengi koyu */
+    }
 
-        .trainer-class-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--lime);
-            box-shadow: 0 20px 40px rgba(195, 244, 0, 0.08);
-        }
+    .t-class-title {
+        color: #374151 !important; /* Ders ismi koyu gri */
+    }
 
-        .t-class-time {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: -2px;
-            line-height: 0.9;
-            margin-bottom: 0.5rem;
-        }
+    .t-student-pill {
+        background: #6d727c !important; /* Pill arka planı açık gri */
+        color: #4b5563 !important; /* Pill yazısı gri */
+    }
 
-        .t-class-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--lime);
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
+    /* Doluluk barının boş kısmını gri yapalım ki beyaz kartta belli olsun */
+    .t-progress-bg {
+        background: #5e626a !important;
+    }
 
-        .t-student-pill {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 14px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #a1a1aa;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+    /* Dropdown menü ikonunu koyulaştır */
+    .trainer-class-card .bi-three-dots-vertical {
+        color: #9ca3af !important;
+    }
 
-        /* Doluluk Barı (Eğitmen Versiyonu) */
-        .t-progress-bg {
-            height: 10px;
-            background: #27272a;
-            border-radius: 5px;
-            margin-top: 1.5rem;
-            overflow: hidden;
-        }
-
-        .t-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--lime), #abd600);
-            border-radius: 5px;
-            transition: width 1s ease;
-        }
-
-        /* Sidebar Logo ve Nav Belirginleştirme */
-        .logo-accent { color: var(--lime); font-weight: 900; }
-        .topbar-title { 
-            font-weight: 900 !important; 
-            font-style: italic; 
-            text-transform: uppercase; 
-            color: var(--lime) !important;
-            letter-spacing: -1px;
-        }
-        
-        .tnav-highlight {
-            background: var(--lime) !important;
-            color: var(--lime-dark) !important;
-            font-weight: 900 !important;
-            border-radius: 50px !important;
-            margin-top: 1rem;
-            box-shadow: 0 8px 20px rgba(195, 244, 0, 0.2);
-        }
-    </style>
+    /* Kartın içindeki tarih bilgisini siyah yap */
+    .t-student-pill i {
+        color: #6b7280 !important;
+    }
+</style>
 </head>
 
 <body>
 
+    <!-- TOAST -->
     <div id="toast-container" class="position-fixed top-0 end-0 p-3" style="z-index:9999"></div>
 
+    <!-- MODAL -->
     <div class="modal fade" id="trainerModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content trainer-modal-content">
@@ -117,21 +64,22 @@
 
     <div class="d-flex min-vh-100">
 
+        <!-- SIDEBAR -->
         <aside class="trainer-sidebar d-flex flex-column">
 
             <div class="sidebar-logo">
                 <div class="logo-text"><span class="logo-accent">FIT</span>GYM</div>
-                <div class="logo-sub">Eğitmen Portalı</div>
+                <div class="logo-sub">Eğitmen Paneli</div>
             </div>
 
             <nav class="sidebar-nav flex-grow-1">
                 <a class="tnav-item" id="nav-dashboard" onclick="loadSection('dashboard')">
-                    <i class="bi bi-grid tnav-icon"></i>
+                    <i class="bi bi-speedometer2 tnav-icon"></i>
                     <span>Genel Bakış</span>
                 </a>
 
                 <a class="tnav-item" id="nav-my-classes" onclick="loadSection('my-classes')">
-                    <i class="bi bi-lightning-charge tnav-icon"></i>
+                    <i class="bi bi-activity tnav-icon"></i>
                     <span>Derslerim</span>
                 </a>
 
@@ -141,39 +89,42 @@
                 </a>
 
                 <a class="tnav-item" id="nav-approvals" onclick="loadSection('approvals')">
-                    <i class="bi bi-shield-check tnav-icon"></i>
+                    <i class="bi bi-check-circle tnav-icon"></i>
                     <span>Onay Bekleyenler</span>
                     <span id="approval-badge" class="badge-approval ms-auto d-none"></span>
                 </a>
 
                 <a class="tnav-item" id="nav-schedule" onclick="loadSection('schedule')">
                     <i class="bi bi-calendar3 tnav-icon"></i>
-                    <span>Haftalık Takvim</span>
+                    <span>Takvim</span>
                 </a>
 
-                <div class="pt-3">
+                <div class="pt-2">
                     <a class="tnav-item tnav-highlight" onclick="openAddClassModal()">
-                        <i class="bi bi-plus-lg tnav-icon"></i>
-                        <span>Yeni Ders Oluştur</span>
+                        <i class="bi bi-plus-circle tnav-icon"></i>
+                        <span>Yeni Ders Ekle</span>
                     </a>
                 </div>
             </nav>
 
             <div class="sidebar-footer">
-                <div class="d-flex align-items-center gap-2 mb-2 p-2" style="background: rgba(255,255,255,0.03); border-radius: 16px;">
+                <div class="d-flex align-items-center gap-2 mb-2">
                     <div id="profile-avatar" class="trainer-avatar">E</div>
+
                     <div class="flex-grow-1 overflow-hidden">
-                        <div id="profile-name" class="sidebar-user-name" style="font-weight: 800; color: var(--lime);">Eğitmen</div>
-                        <div id="today-count" class="sidebar-user-role" style="font-size: 0.65rem;">Yükleniyor...</div>
+                        <div id="profile-name" class="sidebar-user-name">Eğitmen</div>
+                        <div id="today-count" class="sidebar-user-role">Yükleniyor...</div>
                     </div>
+
                     <button onclick="logout()" class="btn-logout-icon" title="Çıkış Yap">
-                        <i class="bi bi-power"></i>
+                        <i class="bi bi-box-arrow-left"></i>
                     </button>
                 </div>
             </div>
 
         </aside>
 
+        <!-- MAIN -->
         <main class="flex-grow-1 trainer-main">
 
             <header class="trainer-topbar d-flex align-items-center justify-content-between px-4">
@@ -182,19 +133,34 @@
                 <div id="toolbar" class="d-none d-flex align-items-center gap-2">
                     <div class="search-wrapper">
                         <i class="bi bi-search search-icon"></i>
-                        <input id="search-input" type="text" placeholder="Ders ara..." class="search-input" oninput="debounceSearch()">
+                        <input 
+                            id="search-input" 
+                            type="text" 
+                            placeholder="Ders ara..."
+                            class="search-input" 
+                            oninput="debounceSearch()"
+                        >
                     </div>
-                    <input id="date-filter" type="date" class="date-input" onchange="loadMyClasses()">
+
+                    <input 
+                        id="date-filter" 
+                        type="date" 
+                        class="date-input" 
+                        onchange="loadMyClasses()"
+                    >
                 </div>
             </header>
 
             <div class="p-4">
+
+                
+
                 <section id="dynamic-content" class="min-content">
-                    <div class="d-flex flex-column align-items-center justify-content-center" style="height:400px">
-                        <div class="spinner-border text-primary" style="color: var(--lime) !important;" role="status"></div>
-                        <div class="text-muted mt-3 fst-italic">Eğitmen Portalı Hazırlanıyor...</div>
+                    <div class="d-flex align-items-center justify-content-center" style="height:300px">
+                        <div class="text-muted fst-italic">Yükleniyor...</div>
                     </div>
                 </section>
+
             </div>
 
         </main>
@@ -204,68 +170,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="egitmen.js"></script>
 
-    <script>
-        // Eğitmen panelindeki dersler listesini takvim görünümüne çeviren fonksiyon
-        // egitmen.js veriyi çekince bu fonksiyonu arayacaktır
-        window.renderMyClasses = function(data) {
-            const area = document.getElementById('dynamic-content');
-            
-            if (!data || data.length === 0) {
-                area.innerHTML = `
-                    <div class="text-center py-5">
-                        <i class="bi bi-calendar2-x text-muted" style="font-size: 4rem; opacity: 0.2;"></i>
-                        <p class="text-muted mt-3">Bugün veya seçilen tarihte dersiniz bulunmuyor.</p>
-                    </div>`;
-                return;
-            }
-
-            let html = `<div class="row g-4">`;
-            
-            data.forEach(cls => {
-                const kayitli = (cls.max_kapasite - cls.mevcut_kapasite);
-                const pct = cls.max_kapasite > 0 ? Math.round((kayitli / cls.max_kapasite) * 100) : 0;
-                
-                html += `
-                <div class="col-12 col-md-6 col-xl-4">
-                    <div class="trainer-class-card">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <span class="t-student-pill">
-                                <i class="bi bi-calendar-event"></i> ${cls.tarih}
-                            </span>
-                            <div class="dropdown">
-                                <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                                    <li><a class="dropdown-item text-danger" href="#" onclick="cancelClass(${cls.slot_id})">Dersi İptal Et</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="t-class-time">${cls.baslangic_saati?.slice(0,5)}</div>
-                        <div class="t-class-title">${cls.hizmet_adi}</div>
-                        
-                        <div class="mt-3">
-                            <span class="t-student-pill">
-                                <i class="bi bi-people-fill"></i> ${kayitli} Öğrenci Kayıtlı
-                            </span>
-                        </div>
-
-                        <div class="t-progress-bg">
-                            <div class="t-progress-fill" style="width: ${pct}%"></div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mt-2" style="font-size: 0.65rem; font-weight: 800; color: #52525b; text-transform: uppercase;">
-                            <span>Kapasite</span>
-                            <span>${pct}% DOLU</span>
-                        </div>
-                    </div>
-                </div>`;
-            });
-
-            html += `</div>`;
-            area.innerHTML = html;
-        };
-    </script>
 </body>
 </html>
